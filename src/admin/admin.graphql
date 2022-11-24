@@ -1,0 +1,18 @@
+type Doctor {
+    _id: String!
+    name: String!
+    profileImage: Image!
+    personalInformation: String!
+    createdAt: String!
+}
+
+input CreateDoctorInput {
+    name: String!
+    email: String!
+    password: String!
+    image: String!
+}
+
+type Mutation {
+    createDoctor(createDoctorInput: CreateDoctorInput): Doctor!
+}

@@ -1,0 +1,57 @@
+scalar DateTime
+
+type DoctorPrivateProfile {
+    _id: String!
+    email: String!
+    name: String!
+    profileImage: Image!
+    personalInformation: String!
+    topics: [Topic]!
+}
+
+type DoctorPublicProfile {
+    _id: String!
+    name: String!
+    profileImage: Image!
+    personalInformation: String!
+    topics: [Topic]!
+}
+
+type Topic {
+    topic: String!
+}
+
+input PatientUpdateNameInput {
+    name: String!
+}
+
+input DoctorUpdateProfileInput {
+    name: String!
+    personalInformation: String!
+}
+
+input UpdateProfileImageInput {
+    image: String!
+}
+
+input UpdatePasswordInput {
+    password: String!
+}
+
+type Query {
+    doctorPrivateProfile: DoctorPrivateProfile!
+    doctorPublicProfile(id: ID!): DoctorPublicProfile!
+}
+
+type Mutation {
+    patientUpdateName(patientUpdateNameInput: PatientUpdateNameInput!): String!
+    doctorUpdateProfile(
+        doctorUpdateProfileInput: DoctorUpdateProfileInput!
+    ): String
+    updateProfileImage(
+        updateProfileImageInput: UpdateProfileImageInput!
+    ): Image!
+    updatePassword(updatePasswordInput: UpdatePasswordInput): String
+    insertAttention(insertAttentionInput: [String]!): [Topic!]!
+    removeAttention(removeAttentionInput: String!): String!
+}

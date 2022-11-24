@@ -1,0 +1,48 @@
+type Image {
+    url: String!
+}
+
+input SignUpInput {
+    email: String!
+    name: String!
+    password: String!
+}
+
+input EmailVerificationInput {
+    token: String!
+}
+
+input SignInInput {
+    email: String!
+    password: String!
+}
+
+type Tokens {
+    token: String!
+    refreshToken: String!
+}
+
+type LoggedInResponse {
+    id: String!
+    name: String!
+    profileImage: Image!
+    unreadNotification: Int!
+    token: String!
+}
+
+input ResetPasswordInput {
+    token: String!
+    password: String!
+}
+
+type Query {
+    refreshToken: Tokens!
+}
+
+type Mutation {
+    signup(signupInput: SignUpInput!): String!
+    verify(emailVerificationInput: EmailVerificationInput): String
+    signin(signinInput: SignInInput!): LoggedInResponse!
+    getResetPasswordOtp(email: String): String!
+    resetPassword(resetPasswordInput: ResetPasswordInput!): String!
+}
