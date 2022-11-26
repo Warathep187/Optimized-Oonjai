@@ -91,7 +91,7 @@ export class ProfileService {
         user.profileImage = uploaded;
         await user.save();
         if (key) {
-            await this.s3ManagerService.removeObjectFromS3(key);
+            this.s3ManagerService.removeObjectFromS3(key);
         }
         return uploaded;
     }
@@ -112,10 +112,19 @@ export class ProfileService {
     }
 
     async insertTopicToAttentionList(userId: string, topics: string[]) {
-        const insertedTopics = await this.checkIsTopicExists(topics, []);
+        const user = await this.userModel.findById(userId).select("attention");
+        for (const topicId of topics) {
+            if (user.attention.includes(topicId)) {
+                topics = topics.filter((id) => id !== topicId);
+            }
+        }
+        const insertedTopics = await this.checkIsTopicExists(
+            JSON.parse(JSON.stringify(topics)),
+            [],
+        );
         await this.userModel.updateOne(
             { _id: userId },
-            { $push: { attention: topics } },
+            { $push: { attention: { $each: topics } } },
         );
         return insertedTopics;
     }

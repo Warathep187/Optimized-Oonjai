@@ -1,3 +1,4 @@
+import { UserJwtStrategy } from './../auth/strategies/user.strategy';
 import { S3ManagerService } from "src/s3-manager/s3-manager.service";
 import { User, UserSchema } from "./../schemas/user.schema";
 import { Topic, TopicSchema } from "./../schemas/topic.schema";
@@ -20,6 +21,7 @@ import { ProfileService } from "./profile.service";
         ProfileService,
         DoctorJwtStrategy,
         PatientJwtStrategy,
+        UserJwtStrategy,
         S3ManagerService,
     ],
 })

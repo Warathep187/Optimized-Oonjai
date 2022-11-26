@@ -1,0 +1,22 @@
+type Topic {
+    _id: String!
+    topic: String!
+}
+
+input CreateTopicInput {
+    topic: String!
+}
+input UpdateTopicInput {
+    topicId: String!
+    topic: String!
+}
+
+type Query {
+    topics: [Topic]!
+}
+
+type Mutation {
+    createTopic(createTopicInput: CreateTopicInput): Topic!
+    updateTopic(updateTopicInput: UpdateTopicInput): String
+    deleteTopic(topicId: String!): String
+}

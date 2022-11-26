@@ -1,0 +1,36 @@
+type Blog {
+    _id: String!
+    title: String!
+    content: String!
+    image: Image
+    views: Int!
+    topic: Topic!
+    user: PreviewProfile!
+    createdAt: DateTime!
+}
+
+input CreateBlogInput {
+    title: String!
+    content: String!
+    image: String!
+    topicId: String!
+}
+
+input UpdateBlogInput {
+    title: String!
+    content: String!
+    image: String
+    topicId: String!
+}
+
+type Query {
+    blogs: [Blog]!
+    topicBlogs(topicId: String!): [Blog]!
+    searchBlogs(keyword: String!): [Blog]!
+}
+
+type Mutation {
+    createBlog(createBlogInput: CreateBlogInput!): String!
+    updateBlog(blogId: String!, updateBlogInput: UpdateBlogInput!): String
+    deleteBlog(blogId: String!): String
+}

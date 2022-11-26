@@ -12,6 +12,9 @@ import { ConfigModule } from "@nestjs/config";
 import { ProfileModule } from './profile/profile.module';
 import { AdminModule } from './admin/admin.module';
 import { S3ManagerModule } from './s3-manager/s3-manager.module';
+import { TopicsModule } from './topics/topics.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { BlogsModule } from './blogs/blogs.module';
 import * as Joi from "joi";
 
 @Module({
@@ -52,6 +55,9 @@ import * as Joi from "joi";
         ProfileModule,
         AdminModule,
         S3ManagerModule,
+        TopicsModule,
+        NotificationsModule,
+        BlogsModule,
     ],
 })
 export class AppModule {}

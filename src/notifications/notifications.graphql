@@ -1,0 +1,24 @@
+enum NotificationType {
+    BLOG
+    QUESTION
+    ANSWER
+    REPLY
+    QUESTION_BANNED
+}
+
+type Question {
+    _id: String!
+}
+
+type Notification {
+    _id: ID!
+    type: NotificationType!
+    blog: Blog!
+    question: Question!
+    user: String!
+    createdAt: DateTime!
+}
+
+type Query {
+    notifications: Notification!
+}

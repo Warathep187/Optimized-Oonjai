@@ -8,6 +8,14 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export enum NotificationType {
+    BLOG = "BLOG",
+    QUESTION = "QUESTION",
+    ANSWER = "ANSWER",
+    REPLY = "REPLY",
+    QUESTION_BANNED = "QUESTION_BANNED"
+}
+
 export class CreateDoctorInput {
     name: string;
     email: string;
@@ -35,6 +43,20 @@ export class ResetPasswordInput {
     password: string;
 }
 
+export class CreateBlogInput {
+    title: string;
+    content: string;
+    image: string;
+    topicId: string;
+}
+
+export class UpdateBlogInput {
+    title: string;
+    content: string;
+    image?: Nullable<string>;
+    topicId: string;
+}
+
 export class PatientUpdateNameInput {
     name: string;
 }
@@ -50,6 +72,15 @@ export class UpdateProfileImageInput {
 
 export class UpdatePasswordInput {
     password: string;
+}
+
+export class CreateTopicInput {
+    topic: string;
+}
+
+export class UpdateTopicInput {
+    topicId: string;
+    topic: string;
 }
 
 export class Doctor {
@@ -73,6 +104,12 @@ export abstract class IMutation {
 
     abstract resetPassword(resetPasswordInput: ResetPasswordInput): string | Promise<string>;
 
+    abstract createBlog(createBlogInput: CreateBlogInput): string | Promise<string>;
+
+    abstract updateBlog(blogId: string, updateBlogInput: UpdateBlogInput): Nullable<string> | Promise<Nullable<string>>;
+
+    abstract deleteBlog(blogId: string): Nullable<string> | Promise<Nullable<string>>;
+
     abstract patientUpdateName(patientUpdateNameInput: PatientUpdateNameInput): string | Promise<string>;
 
     abstract doctorUpdateProfile(doctorUpdateProfileInput: DoctorUpdateProfileInput): Nullable<string> | Promise<Nullable<string>>;
@@ -83,7 +120,13 @@ export abstract class IMutation {
 
     abstract insertAttention(insertAttentionInput: Nullable<string>[]): Topic[] | Promise<Topic[]>;
 
-    abstract removeAttention(removeAttentionInput: string): string | Promise<string>;
+    abstract removeAttention(removeAttentionInput: string): Nullable<string> | Promise<Nullable<string>>;
+
+    abstract createTopic(createTopicInput?: Nullable<CreateTopicInput>): Topic | Promise<Topic>;
+
+    abstract updateTopic(updateTopicInput?: Nullable<UpdateTopicInput>): Nullable<string> | Promise<Nullable<string>>;
+
+    abstract deleteTopic(topicId: string): Nullable<string> | Promise<Nullable<string>>;
 }
 
 export class Image {
@@ -106,9 +149,49 @@ export class LoggedInResponse {
 export abstract class IQuery {
     abstract refreshToken(): Tokens | Promise<Tokens>;
 
+    abstract blogs(): Nullable<Blog>[] | Promise<Nullable<Blog>[]>;
+
+    abstract topicBlogs(topicId: string): Nullable<Blog>[] | Promise<Nullable<Blog>[]>;
+
+    abstract searchBlogs(keyword: string): Nullable<Blog>[] | Promise<Nullable<Blog>[]>;
+
+    abstract notifications(): Notification | Promise<Notification>;
+
     abstract doctorPrivateProfile(): DoctorPrivateProfile | Promise<DoctorPrivateProfile>;
 
     abstract doctorPublicProfile(id: string): DoctorPublicProfile | Promise<DoctorPublicProfile>;
+
+    abstract topics(): Nullable<Topic>[] | Promise<Nullable<Topic>[]>;
+}
+
+export class Blog {
+    _id: string;
+    title: string;
+    content: string;
+    image?: Nullable<Image>;
+    views: number;
+    topic: Topic;
+    user: PreviewProfile;
+    createdAt: DateTime;
+}
+
+export class Question {
+    _id: string;
+}
+
+export class Notification {
+    _id: string;
+    type: NotificationType;
+    blog: Blog;
+    question: Question;
+    user: string;
+    createdAt: DateTime;
+}
+
+export class PreviewProfile {
+    _id?: Nullable<string>;
+    name: string;
+    profileImage: Image;
 }
 
 export class DoctorPrivateProfile {
@@ -129,6 +212,7 @@ export class DoctorPublicProfile {
 }
 
 export class Topic {
+    _id: string;
     topic: string;
 }
 
